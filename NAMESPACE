@@ -2,6 +2,6 @@
 
 export("%>%")
 export(get_ou_hierarchy)
-export(get_outable)
+export(get_ou_table)
 export(pull_dhis2_element)
 importFrom(magrittr,"%>%")

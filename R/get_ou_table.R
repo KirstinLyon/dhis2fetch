@@ -13,11 +13,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'   get_outable(username, password, base_url)
+#'   get_ou_table(username, password, base_url)
 #' }
 #'
 
-get_outable <- function(username, password, base_url){
+get_ou_table <- function(username, password, base_url){
 
     response <- pull_dhis2_element(paste0(base_url, "/api/organisationUnits.json?fields=id,name,level,path,&paging=false"),
                                                username,
