@@ -14,9 +14,9 @@
 #'
 
 pull_dhis2_element <- function(base_url, username, password) {
-    temp <- base_url |>
-        httr::GET(httr::authenticate(username,password))  |>
-        httr::content("text") |>
+    temp <- base_url %>%
+        httr::GET(httr::authenticate(username,password))  %>%
+        httr::content("text") %>%
         jsonlite::fromJSON()
 
     return(temp)

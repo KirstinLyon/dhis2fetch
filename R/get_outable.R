@@ -52,7 +52,7 @@ get_outable <- function(username, password, base_url){
                    dplyr::left_join(df, table_of_ids, by = stats::setNames("id", col_name)) %>%
                        dplyr::rename(!!paste0("ou", i) := ou_name)
                },
-               .init = .data$x)
+               .init = .)
 
 
     return(ou_table)
