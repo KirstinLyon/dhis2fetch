@@ -12,4 +12,8 @@ Imports:
     dplyr,
     httr,
     jsonlite,
+    magrittr,
+    purrr,
+    stats,
+    stringr,
     tidyr
