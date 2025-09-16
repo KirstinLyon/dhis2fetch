@@ -17,7 +17,7 @@
 #' }
 #'
 
-get_ou_table <- function(username, password, base_url){
+get_organisationUnits <- function(username, password, base_url){
 
 
     cols <- c("id", "name", "level", "path")
@@ -69,19 +69,22 @@ get_ou_table <- function(username, password, base_url){
 
 #' Extract OU hierarchy from OU table
 #'
-#' @param ou_table Organisation Unit Table
+#' @param username credentials
+#' @param password credentials
+#' @param url base_url of DHIS2 instance
 #'
-#' @returns clean hierarhcy
+#' @returns Org Unit Table with different levels
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   get_ou_hierarchy(ou_table)
+#'   get_ou_table(username, password,url)
 #' }
 #'
 
-get_ou_hierarchy <- function(ou_table){
-    temp <- ou_table %>%
+get_ou_table <- function(username, password, url){
+
+    temp <- dhis2fetch::get_organisationUnits(username, password, url) %>%
         dplyr::select(-c(name, id, full_path, level)) %>%
         tidyr::drop_na()
 

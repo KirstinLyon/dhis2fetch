@@ -2,26 +2,26 @@
 % Please edit documentation in R/get_ou_table.R
 \name{get_ou_table}
 \alias{get_ou_table}
-\title{Create a table for Organisation Unit.}
+\title{Extract OU hierarchy from OU table}
 \usage{
-get_ou_table(username, password, base_url)
+get_ou_table(username, password, url)
 }
 \arguments{
 \item{username}{credentials}
 
 \item{password}{credentials}
 
-\item{base_url}{base_url of DHIS2 instances}
+\item{url}{base_url of DHIS2 instance}
 }
 \value{
-a tibble of OUs
+Org Unit Table with different levels
 }
 \description{
-Create a table for Organisation Unit.
+Extract OU hierarchy from OU table
 }
 \examples{
 \dontrun{
-  get_ou_table(username, password, base_url)
+  get_ou_table(username, password,url)
 }
 
 }

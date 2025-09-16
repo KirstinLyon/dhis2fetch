@@ -94,7 +94,7 @@ get_dataElement_table <- function(username, password, base_url){
 
 
     data_element_groups_flat <- data_element_groups |>
-        tidyr::unnest(dataElements, names_sep = "_")
+        tidyr::unnest(dataElement, names_sep = "_")
 
     temp <- data_elements |>
         dplyr::left_join(data_element_groups_flat, by = c("dataElement_id" = "dataElement_id"))
