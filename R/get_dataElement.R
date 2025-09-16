@@ -9,11 +9,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'   get_data_elements(username, password, base_url)
+#'   get_dataElements(username, password, base_url)
 #' }
 #'
 
-get_data_elements <- function(username, password, base_url) {
+get_dataElements <- function(username, password, base_url) {
 
     cols <- c("id", "name", "displayName", "dataSetElements")
     cols_string <- paste(cols, collapse = ",")
@@ -21,7 +21,7 @@ get_data_elements <- function(username, password, base_url) {
 
     url <- paste0(base_url, "/api/dataElements?paging=false&fields=", cols_string)
 
-    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+    response <- dhis2fetch::pull_dhis2_element(username, password, url) %>%
         purrr::pluck("dataElements")
 
     temp <- response %>%

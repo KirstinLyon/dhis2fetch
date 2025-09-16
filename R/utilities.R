@@ -9,11 +9,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'   pull_dhis2_element(base_url, username, password)
+#'   pull_dhis2_element(username, password, base_url)
 #' }
 #'
 
-pull_dhis2_element <- function(base_url, username, password) {
+pull_dhis2_element <- function(username, password, base_url) {
     temp <- base_url %>%
         httr::GET(httr::authenticate(username,password))  %>%
         httr::content("text") %>%

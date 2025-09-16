@@ -4,14 +4,14 @@
 \alias{pull_dhis2_element}
 \title{Pull out an element list from DHIS2}
 \usage{
-pull_dhis2_element(base_url, username, password)
+pull_dhis2_element(username, password, base_url)
 }
 \arguments{
-\item{base_url}{base_url of DHIS2 instance}
-
 \item{username}{username for DHIS2 instance}
 
 \item{password}{password for DHIS2 instance}
+
+\item{base_url}{base_url of DHIS2 instance}
 }
 \value{
 A list of elements from DHIS2
@@ -21,7 +21,7 @@ Pull out an element list from DHIS2
 }
 \examples{
 \dontrun{
-  pull_dhis2_element(base_url, username, password)
+  pull_dhis2_element(username, password, base_url)
 }
 
 }

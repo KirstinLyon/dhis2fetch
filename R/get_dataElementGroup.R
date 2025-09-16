@@ -20,7 +20,7 @@ get_dataElementGroup <- function(username, password, base_url) {
 
     url <- paste0(base_url, "/api/dataElementGroups?paging=false&fields=", cols_string)
 
-    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+    response <- dhis2fetch::pull_dhis2_element(username, password, url) %>%
         purrr::pluck("dataElementGroups")
 
     temp <- response %>%

@@ -4,14 +4,14 @@
 \alias{get_indicators_table}
 \title{Create extended indicators table including indicator group name}
 \usage{
-get_indicators_table(username, password, base_Url)
+get_indicators_table(username, password, base_url)
 }
 \arguments{
 \item{username}{user credentials}
 
 \item{password}{user credentials}
 
-\item{base_Url}{base_url for DHIS2 instance}
+\item{base_url}{base_url for DHIS2 instance}
 }
 \value{
 a tibble of indicators with indicator group

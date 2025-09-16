@@ -24,7 +24,7 @@ get_indicators <- function(username, password, base_url) {
 
     url <- paste0(base_url, "/api/indicators?paging=false&fields=", cols_string)
 
-    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+    response <- dhis2fetch::pull_dhis2_element(username, password, url) %>%
         purrr::pluck("indicators")
 
     temp <- response %>%
@@ -60,7 +60,7 @@ get_indicatorGroup <- function(username, password, base_url) {
     cols_string <- paste(cols, collapse = ",")
 
     url <- paste0(base_url, "/api/indicatorGroups?paging=false&fields=", cols_string)
-    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+    response <- dhis2fetch::pull_dhis2_element(username, password, url) %>%
         purrr::pluck("indicatorGroups")
 
 
@@ -80,7 +80,7 @@ get_indicatorGroup <- function(username, password, base_url) {
 #'
 #' @param username user credentials
 #' @param password user credentials
-#' @param base_Url base_url for DHIS2 instance
+#' @param base_url base_url for DHIS2 instance
 #'
 #' @returns a tibble of indicators with indicator group
 #' @export
@@ -91,7 +91,7 @@ get_indicatorGroup <- function(username, password, base_url) {
 #' }
 #'
 
-get_indicators_table <- function(username, password, base_Url){
+get_indicators_table <- function(username, password, base_url){
 
     indicators <- dhis2fetch::get_indicators(username, password, base_url)
 
