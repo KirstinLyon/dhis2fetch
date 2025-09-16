@@ -55,7 +55,7 @@ get_organisationUnits <- function(username, password, base_url){
                function(df, col_name) {
                    i <- which(level_cols == col_name)
                    dplyr::left_join(df, table_of_ids, by = stats::setNames("id", col_name)) %>%
-                       dplyr::rename(!!paste0("ou", i) := ou_name)
+                       dplyr::rename(!!paste0("Level", i) := ou_name)
                },
                .init = .)
 
