@@ -9,11 +9,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'   get_data_element_group(username, password, base_url)
+#'   get_dataElementGroup(username, password, base_url)
 #' }
 #'
 
-get_data_element_group <- function(username, password, base_url) {
+get_dataElementGroup <- function(username, password, base_url) {
 
     cols <- c("id", "name", "displayName", "dataElements")
     cols_string <- paste(cols, collapse = ",")
@@ -24,7 +24,11 @@ get_data_element_group <- function(username, password, base_url) {
         purrr::pluck("dataElementGroups")
 
     temp <- response %>%
-        dplyr::select(id, name, displayName, dataElements)
+        dplyr::select(id, name, displayName, dataElements)%>%
+        dplyr::rename(dataElementGroup_id = id,
+                      dataElementGroup_name = name,
+                      dataElementGroup_displayName = displayName,
+                      dataElement = dataElements)
 
     return(temp)
 }
