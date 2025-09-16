@@ -19,9 +19,14 @@
 
 get_ou_table <- function(username, password, base_url){
 
-    response <- pull_dhis2_element(paste0(base_url, "/api/organisationUnits.json?fields=id,name,level,path,&paging=false"),
-                                               username,
-                                               password) %>%
+
+    cols <- c("id", "name", "level", "path")
+    cols_string <- paste(cols, collapse = ",")
+
+    url <- paste0(base_url, "/api/organisationUnits.json?paging=false&fields=", cols_string)
+
+
+    response <- pull_dhis2_element(username, password, url) %>%
         purrr::pluck("organisationUnits")
 
 

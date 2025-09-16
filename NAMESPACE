@@ -2,6 +2,7 @@
 
 export("%>%")
 export(get_dataElementGroup)
+export(get_dataElement_table)
 export(get_dataElements)
 export(get_indicatorGroup)
 export(get_indicators)
