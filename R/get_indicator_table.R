@@ -33,7 +33,7 @@ get_indicators <- function(username, password, base_url) {
                       denominator, denominatorDescription, displayDenominatorDescription) |>
         dplyr::rename(indicator_id = id,
                       indicator_name = name,
-                      indicator_display_name = displayName)
+                      indicator_displayName = displayName)
 
 
     return(temp)

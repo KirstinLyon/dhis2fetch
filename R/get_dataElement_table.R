@@ -26,9 +26,9 @@ get_dataElements <- function(username, password, base_url) {
 
     temp <- response %>%
         dplyr::select(id, name, displayName, dataSetElements) %>%
-        dplyr::rename(data_element_id = id,
-                      data_element_name = name,
-                      data_element_display_name = displayName)
+        dplyr::rename(dataElement_id = id,
+                      dataElement_name = name,
+                      dataElement_displayName = displayName)
 
     return(temp)
 }
@@ -87,17 +87,17 @@ get_dataElementGroup <- function(username, password, base_url) {
 get_dataElement_table <- function(username, password, base_url){
 
 
-    data_elements <- dhis2fetch::get_dataElements(username, password, base_url)
+    dataElements <- dhis2fetch::get_dataElements(username, password, base_url)
 
 
-    data_element_groups <- dhis2fetch::get_dataElementGroup(username, password, base_url)
+    dataElementGroups <- dhis2fetch::get_dataElementGroup(username, password, base_url)
 
 
-    data_element_groups_flat <- data_element_groups |>
+    dataElementGroups_flat <- dataElementGroups |>
         tidyr::unnest(dataElement, names_sep = "_")
 
-    temp <- data_elements |>
-        dplyr::left_join(data_element_groups_flat, by = c("dataElement_id" = "dataElement_id"))
+    temp <- dataElements |>
+        dplyr::left_join(dataElementGroups_flat, by = c("dataElement_id" = "dataElement_id"))
 
     return(temp)
 
