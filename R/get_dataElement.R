@@ -14,10 +14,20 @@
 #'
 
 get_data_elements <- function(username, password, base_url) {
-    url <- paste0(base_url, "/api/dataElements?paging=false&fields=id,name,displayName,dataSetElements")
-    data_elements <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+
+    cols <- c("id", "name", "displayName", "dataSetElements")
+    cols_string <- paste(cols, collapse = ",")
+
+
+    url <- paste0(base_url, "/api/dataElements?paging=false&fields=", cols_string)
+
+    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
         purrr::pluck("dataElements")
-    return(data_elements)
+
+    temp <- response %>%
+        dplyr::select(id, name, displayName, dataSetElements)
+
+    return(temp)
 }
 
 

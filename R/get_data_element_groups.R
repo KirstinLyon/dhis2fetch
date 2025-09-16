@@ -14,8 +14,17 @@
 #'
 
 get_data_element_group <- function(username, password, base_url) {
-    url <- paste0(base_url, "/api/dataElementGroups?paging=false&fields=id,name,displayName,dataElements")
-    data_element_groups <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
+
+    cols <- c("id", "name", "displayName", "dataElements")
+    cols_string <- paste(cols, collapse = ",")
+
+    url <- paste0(base_url, "/api/dataElementGroups?paging=false&fields=", cols_string)
+
+    response <- dhis2fetch::pull_dhis2_element(url, username, password) %>%
         purrr::pluck("dataElementGroups")
-    return(data_element_groups)
+
+    temp <- response %>%
+        dplyr::select(id, name, displayName, dataElements)
+
+    return(temp)
 }
