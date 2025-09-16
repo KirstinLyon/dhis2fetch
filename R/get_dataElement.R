@@ -25,7 +25,10 @@ get_data_elements <- function(username, password, base_url) {
         purrr::pluck("dataElements")
 
     temp <- response %>%
-        dplyr::select(id, name, displayName, dataSetElements)
+        dplyr::select(id, name, displayName, dataSetElements) |>
+        dplyr::rename(data_element_id = id,
+                      data_element_name = name,
+                      data_element_display_name = displayName)
 
     return(temp)
 }

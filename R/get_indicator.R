@@ -30,7 +30,10 @@ get_indicators <- function(username, password, base_url) {
     temp <- response %>%
         dplyr::select(id, name, description, displayName, displayDescription,
                       annualized, numerator, numeratorDescription, displayNumeratorDescription,
-                      denominator, denominatorDescription, displayDenominatorDescription)
+                      denominator, denominatorDescription, displayDenominatorDescription) |>
+        dplyr::rename(indicator_id = id,
+                      indicator_name = name,
+                      indicator_display_name = displayName)
 
 
     return(temp)
