@@ -3,6 +3,8 @@
 export("%>%")
 export(get_data_element_group)
 export(get_data_elements)
+export(get_indicator_groups)
+export(get_indicators)
 export(get_ou_hierarchy)
 export(get_ou_table)
 export(pull_dhis2_element)
