@@ -18,7 +18,7 @@ get_indicators <- function(username, password, base_url) {
     cols <- c("id", "name", "description", "displayName", "displayDescription",
               "annualized", "numerator", "numeratorDescription", "displayNumeratorDescription",
               "denominator", "denominatorDescription", "displayDenominatorDescription",
-              "dataSets")
+              "dataSets","shortName", "indicatorType" )
 
     cols_string <- paste(cols, collapse = ",")
 
@@ -30,7 +30,8 @@ get_indicators <- function(username, password, base_url) {
     temp <- response %>%
         dplyr::select(id, name, description, displayName, displayDescription,
                       annualized, numerator, numeratorDescription, displayNumeratorDescription,
-                      denominator, denominatorDescription, displayDenominatorDescription) |>
+                      denominator, denominatorDescription, displayDenominatorDescription,
+                      shortName, indicatorType ) |>
         dplyr::rename(indicator_id = id,
                       indicator_name = name,
                       indicator_displayName = displayName)
@@ -74,7 +75,38 @@ get_indicatorGroup <- function(username, password, base_url) {
     return(temp)
 }
 
+#' Table of indicator types from DHIS2
+#'
+#' @param username username
+#' @param password password
+#' @param base_url base_url from DHIS2 instance
+#'
+#' @returns a tibble of indicatortypes
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'   get_indicatorType(username, password, base_url)
+#' }
+#'
 
+get_indicatorType <- function(username, password, base_url) {
+
+    cols <- c("id", "name")
+    cols_string <- paste(cols, collapse = ",")
+
+    url <- paste0(base_url, "/api/indicatorTypes?paging=false&fields=", cols_string)
+    response <- dhis2fetch::pull_dhis2_element(username, password, url) %>%
+        purrr::pluck("indicatorTypes")
+
+    temp <- response %>%
+        dplyr::select(id, name)%>%
+        dplyr::rename(indicatorType_id = id,
+                      indicatorType_name = name)
+
+    return(temp)
+
+}
 
 #' Create extended indicators table including indicator group name
 #'
@@ -106,3 +138,4 @@ get_indicators_table <- function(username, password, base_url){
     return(temp)
 
 }
+

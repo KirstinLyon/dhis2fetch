@@ -5,4 +5,5 @@ utils::globalVariables(c("id", "full_path", "level", "name",
                          "annualized", "numerator", "numeratorDescription",
                          "displayNumeratorDescription", "denominator", "denominatorDescription",
                          "displayDenominatorDescription", "indicators", "dataElements",
-                         "dataSetElements", "base_url", "indicator", "dataElement"))
+                         "dataSetElements", "base_url", "indicator", "dataElement",
+                         "shortName", "indicatorType"))
