@@ -86,7 +86,8 @@ get_ou_table <- function(username, password, url){
 
     temp <- dhis2fetch::get_organisationUnits(username, password, url) %>%
         dplyr::select(-c(name, id, full_path, level)) %>%
-        tidyr::drop_na()
+        tidyr::drop_na() %>%
+        tidyr::unite("full_path", dplyr::starts_with("Level"), sep = " / ", na.rm = TRUE, remove = FALSE)
 
     return(temp)
 
