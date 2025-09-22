@@ -56,7 +56,7 @@ get_programIndicatorGroup <- function(username, password, base_url) {
     response <- dhis2fetch::pull_dhis2_element(username, password, url)
     program_indicator_groups <- response$programIndicatorGroups
 
-    temp <- program_indicator_groups |>
+    temp <- program_indicator_groups %>%
         dplyr::rename(programIndicator_id = id,
                programIndicator_name = name,
                programIndicator_displayName = displayName)
@@ -90,7 +90,14 @@ get_programIndicator <- function(username, password, base_url) {
     url <- paste0(base_url, "/api/programIndicators?fields=", col_string)
     response <- dhis2fetch::pull_dhis2_element(username, password, url)
     program_indicators <- response$programIndicators
-    return(program_indicators)
+
+
+    temp <- program_indicators %>%
+        tidyr::unnest(program, names_sep = "_", keep_empty = TRUE) %>%
+        tidyr::unnest(programIndicatorGroups, names_sep = "_", keep_empty = TRUE)
+
+
+    return(temp)
 }
 
 
@@ -116,12 +123,9 @@ get_programIndicator_table <- function(username, password, base_url) {
     programIndicator <- dhis2fetch::get_programIndicator(username, password, base_url)
 
 
-    temp <- programIndicators |>
-        tidyr::unnest(program, names_sep = "_", keep_empty = TRUE) |>
-        tidyr::unnest(programIndicatorGroups, names_sep = "_", keep_empty = TRUE) |>
-        dplyr::left_join(program, by = c("program_id" = "id")) |>
+    temp <- programIndicator %>%
+        dplyr::left_join(program, by = c("program_id" = "id")) %>%
         dplyr::left_join(programIndicatorGroup, by = c("programIndicatorGroups_id" = "id"))
-
 
     return(temp)
 

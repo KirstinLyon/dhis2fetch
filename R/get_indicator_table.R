@@ -34,12 +34,12 @@ get_indicators <- function(username, password, base_url) {
         dplyr::select(id, name, description, displayName, displayDescription,
                       annualized, numerator, numeratorDescription, displayNumeratorDescription,
                       denominator, denominatorDescription, displayDenominatorDescription,
-                      shortName, indicatorType ) |>
+                      shortName, indicatorType ) %>%
 
         dplyr::rename(indicator_id = id,
                       indicator_name = name,
-                      indicator_displayName = displayName) |>
-        tidyr::unnest(cols = c(indicatorType), keep_empty = TRUE) |>
+                      indicator_displayName = displayName) %>%
+        tidyr::unnest(cols = c(indicatorType), keep_empty = TRUE) %>%
         dplyr::rename(indicatorType_id = id)
 
 
@@ -141,8 +141,8 @@ get_indicators_table <- function(username, password, base_url){
 
     indicator_types <- dhis2fetch::get_indicatorType(username, password, base_url)
 
-    temp <- indicators |>
-        dplyr::left_join(indicator_groups_flat, by = c("indicator_id" = "indicator_id")) |>
+    temp <- indicators %>%
+        dplyr::left_join(indicator_groups_flat, by = c("indicator_id" = "indicator_id")) %>%
         dplyr::left_join(indicator_types, by = c("indicatorType_id" = "indicatorType_id"))
 
     return(temp)

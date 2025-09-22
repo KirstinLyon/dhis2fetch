@@ -93,10 +93,10 @@ get_dataElement_table <- function(username, password, base_url){
     dataElementGroups <- dhis2fetch::get_dataElementGroup(username, password, base_url)
 
 
-    dataElementGroups_flat <- dataElementGroups |>
+    dataElementGroups_flat <- dataElementGroups %>%
         tidyr::unnest(dataElement, names_sep = "_", keep_empty = TRUE)
 
-    temp <- dataElements |>
+    temp <- dataElements %>%
         dplyr::left_join(dataElementGroups_flat, by = c("dataElement_id" = "dataElement_id"))
 
     return(temp)
