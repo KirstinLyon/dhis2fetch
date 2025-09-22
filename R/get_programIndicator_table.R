@@ -57,9 +57,9 @@ get_programIndicatorGroup <- function(username, password, base_url) {
     program_indicator_groups <- response$programIndicatorGroups
 
     temp <- program_indicator_groups %>%
-        dplyr::rename(programIndicator_id = id,
-               programIndicator_name = name,
-               programIndicator_displayName = displayName)
+        dplyr::rename(programIndicatorGroups_id = id,
+               programIndicatorGroups__name = name,
+               programIndicatorGroups_displayName = displayName)
 
     return(temp)
 }
@@ -124,8 +124,8 @@ get_programIndicator_table <- function(username, password, base_url) {
 
 
     temp <- programIndicator %>%
-        dplyr::left_join(program, by = c("program_id" = "id")) %>%
-        dplyr::left_join(programIndicatorGroup, by = c("programIndicatorGroups_id" = "id"))
+        dplyr::left_join(program, by = c("program_id" = "program_id")) %>%
+        dplyr::left_join(programIndicatorGroup, by = c("programIndicatorGroups_id" = "programIndicatorGroups_id"))
 
     return(temp)
 
