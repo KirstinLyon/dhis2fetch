@@ -119,7 +119,7 @@ get_programIndicator <- function(username, password, base_url) {
 get_programIndicator_table <- function(username, password, base_url) {
 
     program <- dhis2fetch::get_programs(username, password, base_url)
-    programIdicatorGroup <- dhis2fetch::get_programIndicatorGroup(username, password, base_url)
+    programIndicatorGroup <- dhis2fetch::get_programIndicatorGroup(username, password, base_url)
     programIndicator <- dhis2fetch::get_programIndicator(username, password, base_url)
 
 
