@@ -39,7 +39,7 @@ get_indicators <- function(username, password, base_url) {
         dplyr::rename(indicator_id = id,
                       indicator_name = name,
                       indicator_displayName = displayName) |>
-        tidyr::unnest(cols = c(indicatorType)) |>
+        tidyr::unnest(cols = c(indicatorType), keep_empty = TRUE) |>
         dplyr::rename(indicatorType_id = id)
 
 
@@ -80,92 +80,6 @@ get_indicatorGroup <- function(username, password, base_url) {
 
     return(temp)
 }
-
-
-#' Get all program inidcators
-#'
-#' @param username DHIS2 username
-#' @param password DHIS2 password
-#' @param base_url base_url for DHIS2 instance
-#'
-#' @returns a tibble of program inidcators
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'   get_programIndicator(username, password, base_url)
-#' }
-#'
-
-get_programIndicator <- function(username, password, base_url) {
-
-    cols <- c("id", "displayName", "name", "programIndicatorGroups", "filter",
-              "description", "expression",  "aggregationType",
-              "program")
-
-    col_string <- paste(cols, collapse = ",")
-
-    url <- paste0(base_url, "/api/programIndicators?fields=", col_string)
-    response <- dhis2fetch::pull_dhis2_element(username, password, url)
-    program_indicators <- response$programIndicators
-    return(program_indicators)
-}
-
-
-#' Get a tibble of program indicators groups
-#'
-#' @param username DHIS2 username
-#' @param password DHIS2 password
-#' @param base_url base_url for DHIS2 instance
-#'
-#' @returns a tibble of program inidcator groups
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'   get_programIndicatorGroup(username, password, base_url)
-#' }
-#'
-get_programIndicatorGroup <- function(username, password, base_url) {
-
-    cols <- c("id", "displayName", "name")
-
-    col_string <- paste(cols, collapse = ",")
-
-    url <- paste0(base_url, "/api/programIndicatorGroups?fields=", col_string)
-    response <- dhis2fetch::pull_dhis2_element(username, password, url)
-    program_indicator_groups <- response$programIndicatorGroups
-    return(program_indicator_groups)
-}
-
-#' Get a tibble of all programs
-#'
-#' @param username DHIS2 username
-#' @param password DHIS2 password
-#' @param base_url base_url for DHIS2 instance
-#'
-#' @returns a tibble of programs
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'   get_programs(username, password, base_url)
-#' }
-#'
-
-get_programs <- function(username, password, base_url) {
-
-    cols <- c("id", "displayName", "name")
-
-    col_string <- paste(cols, collapse = ",")
-
-    url <- paste0(base_url, "/api/programs?fields=", col_string)
-    response <- dhis2fetch::pull_dhis2_element(username, password, url)
-    programs <- response$programs
-    return(programs)
-}
-
-
 
 
 #' Table of indicator types from DHIS2
@@ -223,7 +137,7 @@ get_indicators_table <- function(username, password, base_url){
     indicator_groups <- dhis2fetch::get_indicatorGroup(username, password, base_url)
 
     indicator_groups_flat <- indicator_groups %>%
-        tidyr::unnest(indicator, names_sep = "_")
+        tidyr::unnest(indicator, names_sep = "_", keep_empty = TRUE)
 
     indicator_types <- dhis2fetch::get_indicatorType(username, password, base_url)
 

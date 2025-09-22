@@ -6,4 +6,5 @@ utils::globalVariables(c("id", "full_path", "level", "name",
                          "displayNumeratorDescription", "denominator", "denominatorDescription",
                          "displayDenominatorDescription", "indicators", "dataElements",
                          "dataSetElements", "base_url", "indicator", "dataElement",
-                         "shortName", "indicatorType"))
+                         "shortName", "indicatorType", "programIndicators", "programIndicatorGroups",
+                         "programIndicatorGroup"))
