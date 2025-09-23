@@ -32,11 +32,7 @@ get_indicators <- function(username, password, base_url) {
                       annualized, numerator, numeratorDescription, displayNumeratorDescription,
                       denominator, denominatorDescription, displayDenominatorDescription,
                       shortName, indicatorType ) %>%
-        dplyr::rename_with(paste0("indicator_"), .cols = dplyr::everything()) %>%
-
-   #     dplyr::rename(indicator_id = id,
-#                      indicator_name = name,
-#                      indicator_displayName = displayName) %>%
+        dplyr::rename_with(~ paste0("indicator_", .x), dplyr::everything()) %>%
         tidyr::unnest(cols = c(indicator_indicatorType), keep_empty = TRUE) %>%
         dplyr::rename(indicatorType_id = id)
 
@@ -71,11 +67,7 @@ get_indicatorGroup <- function(username, password, base_url) {
 
     temp <- response %>%
         dplyr::select(id, name, displayName, indicators)%>%
-        dplyr::rename_with(paste0("indicatorGroup_"), .cols = dplyr::everything())
- #       dplyr::rename(indicatorGroup_id = id,
- #                     indicatorGroup_name = name,
- #                     indicatorGroup_displayName = displayName,
- #                     indicator = indicators)
+        dplyr::rename_with(~ paste0("indicatorGroup_", .x), dplyr::everything())
 
     return(temp)
 }
@@ -107,9 +99,7 @@ get_indicatorType <- function(username, password, base_url) {
 
     temp <- response %>%
         dplyr::select(id, name)%>%
-        dplyr::rename_with(paste0("indicatorType_"), .cols = dplyr::everything())
-  #      dplyr::rename(indicatorType_id = id,
-  #                    indicatorType_name = name)
+        dplyr::rename_with(~ paste0("indicatorType_", .x), dplyr::everything())
 
     return(temp)
 
