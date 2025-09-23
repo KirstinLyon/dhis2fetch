@@ -10,4 +10,6 @@ utils::globalVariables(c("id", "full_path", "level", "name",
                          "programIndicatorGroup", "program", "indicator_indicatorType", "indicator_indicatorGroups",
                          "indicator_indicatorType_id","indicator_indicatorGroups_id", "program_indicator_program",
                          "programIndicator_programIndicatorGroups","programIndicator_program_id",
-                         "programIndicator_programIndicatorGroups_id", "programIndicator_program"))
+                         "programIndicator_programIndicatorGroups_id", "programIndicator_program",
+                         "dataElement_dataElementsGroups", "dataElement_dataElementGroups_id",
+                         "dataElement_dataElementGroups"))

@@ -15,9 +15,8 @@
 
 get_dataElements <- function(username, password, base_url) {
 
-    cols <- c("id", "name", "displayName", "dataSetElements")
+    cols <- c("id", "name", "displayName", "dataElementGroups")
     cols_string <- paste(cols, collapse = ",")
-
 
     url <- paste0(base_url, "/api/dataElements?paging=false&fields=", cols_string)
 
@@ -25,7 +24,10 @@ get_dataElements <- function(username, password, base_url) {
         purrr::pluck("dataElements")
 
     temp <- response %>%
-        dplyr::rename_with(~ paste0("dataElement_", .x), dplyr::everything())
+        dplyr::rename_with(~ paste0("dataElement_", .x), dplyr::everything()) |>
+        tidyr::unnest(dataElement_dataElementGroups, names_sep = "_", keep_empty = TRUE) %>%
+        dplyr::rename(dataElementGroups_id = dataElement_dataElementGroups_id)
+
     return(temp)
 }
 
@@ -44,9 +46,9 @@ get_dataElements <- function(username, password, base_url) {
 #' }
 #'
 
-get_dataElementGroup <- function(username, password, base_url) {
+get_dataElementGroups <- function(username, password, base_url) {
 
-    cols <- c("id", "name", "displayName", "dataElements")
+    cols <- c("id", "name", "displayName")
     cols_string <- paste(cols, collapse = ",")
 
     url <- paste0(base_url, "/api/dataElementGroups?paging=false&fields=", cols_string)
@@ -55,8 +57,7 @@ get_dataElementGroup <- function(username, password, base_url) {
         purrr::pluck("dataElementGroups")
 
     temp <- response %>%
-        dplyr::select(id, name, displayName, dataElements)%>%
-        dplyr::rename_with(~ paste0("dataElementGroup_", .x), dplyr::everything())
+        dplyr::rename_with(~ paste0("dataElementGroups_", .x), dplyr::everything())
 
     return(temp)
 }
@@ -79,18 +80,11 @@ get_dataElementGroup <- function(username, password, base_url) {
 
 get_dataElement_table <- function(username, password, base_url){
 
-
     dataElements <- dhis2fetch::get_dataElements(username, password, base_url)
-
-
-    dataElementGroups <- dhis2fetch::get_dataElementGroup(username, password, base_url)
-
-
-    dataElementGroups_flat <- dataElementGroups %>%
-        tidyr::unnest(dataElement, names_sep = "_", keep_empty = TRUE)
+    dataElementGroups <- dhis2fetch::get_dataElementGroups(username, password, base_url)
 
     temp <- dataElements %>%
-        dplyr::left_join(dataElementGroups_flat, by = c("dataElement_id" = "dataElement_id"))
+        dplyr::left_join(dataElementGroups, by = c("dataElementGroups_id" = "dataElementGroups_id"))
 
     return(temp)
 
