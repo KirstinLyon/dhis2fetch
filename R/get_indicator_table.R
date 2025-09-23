@@ -18,7 +18,7 @@ get_indicators <- function(username, password, base_url) {
     cols <- c("id", "name", "description", "displayName", "displayDescription",
               "annualized", "numerator", "numeratorDescription", "displayNumeratorDescription",
               "denominator", "denominatorDescription", "displayDenominatorDescription",
-              "dataSets","shortName", "indicatorType" )
+              "dataSets","shortName", "indicatorType","indicatorGroups" )
 
     cols_string <- paste(cols, collapse = ",")
 
@@ -28,13 +28,11 @@ get_indicators <- function(username, password, base_url) {
         purrr::pluck("indicators")
 
     temp <- response %>%
-        dplyr::select(id, name, description, displayName, displayDescription,
-                      annualized, numerator, numeratorDescription, displayNumeratorDescription,
-                      denominator, denominatorDescription, displayDenominatorDescription,
-                      shortName, indicatorType ) %>%
         dplyr::rename_with(~ paste0("indicator_", .x), dplyr::everything()) %>%
-        tidyr::unnest(cols = c(indicator_indicatorType), keep_empty = TRUE) %>%
-        dplyr::rename(indicatorType_id = id)
+        tidyr::unnest(cols = c(indicator_indicatorType), names_sep = "_", keep_empty = TRUE) %>%
+        tidyr::unnest(cols = c(indicator_indicatorGroups), names_sep = "_", keep_empty = TRUE) %>%
+        dplyr::rename(indicatorType_id = indicator_indicatorType_id,
+                      indicatorGroups_id = indicator_indicatorGroups_id)
 
 
     return(temp)
@@ -55,9 +53,9 @@ get_indicators <- function(username, password, base_url) {
 #'   get_indicatorGroup(username, password, base_url)
 #' }
 #'
-get_indicatorGroup <- function(username, password, base_url) {
+get_indicatorGroups <- function(username, password, base_url) {
 
-    cols <- c("id", "name", "displayName", "indicators")
+    cols <- c("id", "name", "displayName")
     cols_string <- paste(cols, collapse = ",")
 
     url <- paste0(base_url, "/api/indicatorGroups?paging=false&fields=", cols_string)
@@ -66,8 +64,7 @@ get_indicatorGroup <- function(username, password, base_url) {
 
 
     temp <- response %>%
-        dplyr::select(id, name, displayName, indicators)%>%
-        dplyr::rename_with(~ paste0("indicatorGroup_", .x), dplyr::everything())
+        dplyr::rename_with(~ paste0("indicatorGroups_", .x), dplyr::everything())
 
     return(temp)
 }
@@ -124,15 +121,12 @@ get_indicators_table <- function(username, password, base_url){
 
     indicators <- dhis2fetch::get_indicators(username, password, base_url)
 
-    indicator_groups <- dhis2fetch::get_indicatorGroup(username, password, base_url)
-
-    indicator_groups_flat <- indicator_groups %>%
-        tidyr::unnest(indicator, names_sep = "_", keep_empty = TRUE)
+    indicatorGroups <- dhis2fetch::get_indicatorGroups(username, password, base_url)
 
     indicator_types <- dhis2fetch::get_indicatorType(username, password, base_url)
 
     temp <- indicators %>%
-        dplyr::left_join(indicator_groups_flat, by = c("indicator_id" = "indicator_id")) %>%
+        dplyr::left_join(indicatorGroups, by = c("indicatorGroups_id" = "indicatorGroups_id")) %>%
         dplyr::left_join(indicator_types, by = c("indicatorType_id" = "indicatorType_id"))
 
     return(temp)

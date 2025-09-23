@@ -25,7 +25,6 @@ get_dataElements <- function(username, password, base_url) {
         purrr::pluck("dataElements")
 
     temp <- response %>%
-        dplyr::select(id, name, displayName, dataSetElements) %>%
         dplyr::rename_with(~ paste0("dataElement_", .x), dplyr::everything())
     return(temp)
 }
