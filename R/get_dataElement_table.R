@@ -26,9 +26,10 @@ get_dataElements <- function(username, password, base_url) {
 
     temp <- response %>%
         dplyr::select(id, name, displayName, dataSetElements) %>%
-        dplyr::rename(dataElement_id = id,
-                      dataElement_name = name,
-                      dataElement_displayName = displayName)
+        dplyr::rename_with(paste0("dataElement_"), .cols = dplyr::everything())
+   #     dplyr::rename(dataElement_id = id,
+#                      dataElement_name = name,
+#                      dataElement_displayName = displayName)
 
     return(temp)
 }
@@ -60,10 +61,11 @@ get_dataElementGroup <- function(username, password, base_url) {
 
     temp <- response %>%
         dplyr::select(id, name, displayName, dataElements)%>%
-        dplyr::rename(dataElementGroup_id = id,
-                      dataElementGroup_name = name,
-                      dataElementGroup_displayName = displayName,
-                      dataElement = dataElements)
+        dplyr::rename_with(paste0("dataElementGroup_"), .cols = dplyr::everything()) #%>%
+   #     dplyr::rename(dataElementGroup_id = id,
+#                      dataElementGroup_name = name,
+#                      dataElementGroup_displayName = displayName,
+#                      dataElement = dataElements)
 
     return(temp)
 }

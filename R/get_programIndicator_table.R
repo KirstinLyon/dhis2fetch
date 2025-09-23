@@ -24,9 +24,10 @@ get_programs <- function(username, password, base_url) {
     programs <- response$programs
 
     temp <- programs %>%
-        dplyr::rename(program_id = id,
-                      program_name = name,
-                      program_displayName = displayName)
+        dplyr::rename_with(paste0("program_"), .cols = dplyr::everything())
+   #     dplyr::rename(program_id = id,
+#                      program_name = name,
+#                      program_displayName = displayName)
 
 
     return(temp)
@@ -57,9 +58,10 @@ get_programIndicatorGroup <- function(username, password, base_url) {
     program_indicator_groups <- response$programIndicatorGroups
 
     temp <- program_indicator_groups %>%
-        dplyr::rename(programIndicatorGroups_id = id,
-               programIndicatorGroups__name = name,
-               programIndicatorGroups_displayName = displayName)
+        dplyr::rename_with(paste0("program_"), .cols = dplyr::everything())
+  #      dplyr::rename(programIndicatorGroups_id = id,
+  #             programIndicatorGroups__name = name,
+  #             programIndicatorGroups_displayName = displayName)
 
     return(temp)
 }
@@ -93,6 +95,7 @@ get_programIndicator <- function(username, password, base_url) {
 
 
     temp <- program_indicators %>%
+        dplyr::rename_with(paste0("programIndicator_"), .cols = dplyr::everything())
         tidyr::unnest(program, names_sep = "_", keep_empty = TRUE) %>%
         tidyr::unnest(programIndicatorGroups, names_sep = "_", keep_empty = TRUE)
 
